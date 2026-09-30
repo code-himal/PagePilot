@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PagePilot — convert scans into clean editable files</title>
+    <meta
+      name="description"
+      content="Upload a PDF, photo or scan. PagePilot reads the text and tables and turns them into editable Word, Excel, CSV and text files."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-head">
+      <div class="wrap site-head__row">
+        <div class="wordmark" aria-label="PagePilot brand">
+          <div class="wordmark__icon" aria-hidden="true">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect
+                x="2"
+                y="2"
+                width="20"
+                height="20"
+                rx="6"
+                fill="currentColor"
+                opacity="0.14"
+              />
+              <path
+                d="M7 7.5H14.5C15.88 7.5 17 8.62 17 10V16.5H9.5C8.12 16.5 7 15.38 7 14V7.5Z"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M9 12H15M9 9.5H15M9 14.5H13"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linecap="round"
+              />
+            </svg>
+          </div>
+          <span>PagePilot</span>
+        </div>
+        <p class="site-head__tag">
+          Capture forms, tables, and text — then edit everything in one place.
+        </p>
+      </div>
+    </header>
+
+    <main id="main" class="wrap">
+      <section class="tray" id="tray" aria-label="Upload files">
+        <span class="tray__mark tray__mark--tl" aria-hidden="true"></span>
+        <span class="tray__mark tray__mark--tr" aria-hidden="true"></span>
+        <span class="tray__mark tray__mark--bl" aria-hidden="true"></span>
+        <span class="tray__mark tray__mark--br" aria-hidden="true"></span>
+
+        <input
+          type="file"
+          id="fileInput"
+          multiple
+          hidden
+          accept=".pdf,.jpg,.jpeg,.png,.webp,.bmp,.tif,.tiff,application/pdf,image/*"
+        />
+
+        <div class="tray__inner" id="trayInner">
+          <p class="eyebrow">Smart document conversion</p>
+          <p class="tray__headline">Drop a PDF, photo or scan here</p>
+          <p class="tray__sub">
+            Marksheets, invoices, attendance sheets, reports, forms — one file
+            or several.
+          </p>
+          <button type="button" class="btn btn--primary" id="browseBtn">
+            Choose files
+          </button>
+          <p class="tray__hint" id="trayHint">
+            PDF · JPG · PNG · WEBP · BMP · TIFF, up to {{ max_mb }}&nbsp;MB each
+          </p>
+        </div>
+
+        <div class="tray__options">
+          <label class="opt">
+            <span>Language</span>
+            <select id="langSelect">
+              <option value="eng">English</option>
+            </select>
+          </label>
+          <label class="opt">
+            <span>Pages</span>
+            <input
+              type="text"
+              id="pagesInput"
+              placeholder="all pages"
+              inputmode="text"
+              autocomplete="off"
+            />
+          </label>
+          <p class="opt__hint">
+            Pages: e.g. <code>1-3,5</code> or <code>8-</code>. Leave blank for
+            all (up to {{ max_pages }}).
+          </p>
+        </div>
+      </section>
+
+      <ol class="steps" id="steps" aria-label="Process">
+        <li class="steps__item is-active" data-step="upload">
+          <span class="steps__n">01</span>Upload
+        </li>
+        <li class="steps__item" data-step="read">
+          <span class="steps__n">02</span>Read
+        </li>
+        <li class="steps__item" data-step="review">
+          <span class="steps__n">03</span>Review
+        </li>
+        <li class="steps__item" data-step="download">
+          <span class="steps__n">04</span>Download
+        </li>
+      </ol>
+
+      <section
+        id="workspace"
+        class="workspace"
+        hidden
+        aria-label="Extracted documents"
+      ></section>
+
+      <section id="emptyNote" class="empty-note">
+        <p>
+          Nothing uploaded yet. Files are processed locally and never shared —
+          your document disappears when the tab closes.
+        </p>
+      </section>
+    </main>
+
+    <footer class="site-foot">
+      <div class="wrap">
+        <span
+          >PagePilot · document extraction for offices, schools and teams</span
+        >
+      </div>
+    </footer>
+
+    <div id="toasts" class="toasts" role="status" aria-live="polite"></div>
+
+    <script src="{{ url_for('static', filename='app.js') }}" defer></script>
+  </body>
+</html>
